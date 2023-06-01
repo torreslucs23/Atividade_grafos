@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Modelo de uso do MathJax (HTML+Latex)</title>
+  <style>
+    .code-container {
+            background-color: #2d0d3b;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            line-height: 1.4;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    
+    code {
+        color: #e8e8ee;
+    }
+
+</style>
+
+  <!-- MATHJAX 3 (através da CDN) -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- MATHJAX 3 (salvo no computador) -->
+  <!-- <script type="text/javascript" async src="../../../Aplicativos/MathJax-master/es5/tex-mml-chtml.js" async></script> -->
+</head>
+<body style="background: rgb(205,201,235);
+background: radial-gradient(circle, rgba(205,201,235,1) 2%, 
+rgba(245,225,236,1) 51%, rgba(201,215,231,1) 100%); margin-left: 2rem; margin-right: 2rem;
+font-size: 20px;">
+
+  <h3><strong>Nome: </strong>Lucas de Araújo Torres</h3>
+  <h3><strong>Matrícula: </strong>557156</h3>
+
+  <p>
+  <strong>ATENÇãO 1:</strong> Essa atividade pode ser entregue no formato MathJax (html + Latex) 
+  diretamente pelo Moodle ou pode ser entregue como um pdf produzido em latex/word. 
+  Não serão aceitas soluções em papel ou escaneadas. 
+  Na Avaliação Continuada 05 eu coloquei o arquivo que eu usei para 
+  preparar esta atividade. Leia-o e veja como eu fiz para preparar estas questões.
+  Os alunos que ainda tiverem dúvida sobre o formato podem pedir ajuda no grupo do telegram.
+  </p>
+
+  <p>
+    <strong>ATENÇãO 2:</strong> Se escolher fazer no formato MathJax, 
+    ao copiar a sua atividade para o editor de código html 
+    do Moodle, NÃO copie todo o conteúdo do arquivo HTML. 
+    Ao invés disso, copie apenas o conteúdo que está dentro das 
+    tags <strong>body</strong> do html. O Moodle já tratará de renderizar.
+    </p>
+  
+  <h1>Questões</h1>
+
+  <ul>
+    <li>
+    <p><strong>Questão 1.</strong>  
+        O <strong>transposto</strong> do grafo direcionado \(G = (V, E)\) é o 
+        grafo \(G^T = (V, E^T)\), em que \( E^T = \{(v,u) \in V \times V \colon (u, v) \in E\} \). 
+        Assim, \(G^T\) é \(G\) com todas as suas arestas invertidas. Descreva
+        algoritmos eficientes para calcular \(G^T\) a partir de \(G\), 
+        para as representações de lista de adjacências e matriz 
+        de adjacências de \(G\). Analise os tempos de execução dos seus algoritmos.
+        
+    </p>
+    </li>
+
+    <li>
+      <p><strong>Questão 2.</strong> 
+        A maioria dos algoritmos em grafos que adota uma representação por matriz de adjacências 
+        como entrada exige o tempo \(O(V^2)\), mas há algumas exceções. 
+        Mostre como determinar se um grafo direcionado \(G\) contém um 
+        <strong>sorvedouro universal</strong> --- um vértice com grau de entrada \(|V|-1\) 
+        e grau de saída \(0\) --- no tempo \(O(V)\), dada uma matriz de adjacências para \(G\).
+      </p>
+    </li>
+
+    <li>
+      <p><strong>Questão 3. </strong> 
+        Seja \(G(V,E)\) um grafo não direcionado. Crie um algoritmo que receba \(G\) em forma de lista de adjacências e um conjunto
+            \(S \subseteq V\) e crie o subgrafo induzido \(G[S]\) como lista de adjacências. 
+            Analise a complexidade de seu algoritmo.
+      </p>
+    </li>
+    </ul>
+
+    <p>
+      <strong>Atenção:</strong> As análises de complexidade feitas nessas questões não precisam ser feitas 
+        de modo formal, podem ser feitas de modo informal. Só se certifique de que estejam corretas 
+        e de que sejam o mais fiéis possíveis a complexidade real do seu algoritmo.
+      
+    </p>
+
+
+<div style="border-top: dotted; border-color:rgb(168, 137, 185) ; margin-top: 4rem;">
+<h1 style="text-align: center;">Respostas</h1>
+
+  <p>
+    Para responder as questões, será apresentado a explicação do funcionamento
+    do algoritmo, o pseudocódigo, a análise de complexidade e também deixarei alguns links dos códigos
+    que eu implementei na linguagem Python para poderem ser testados. <br>
+    <br>
+    Lembrando que para rodar esses códigos, você deve ter o Python versão 3 ou mais instalado em sua 
+    máquina. <br> <br>
+    Você pode rodar o comando:
+  </p>
+  <div class="code-container">
+    <pre><code>
+      >>> python3 nome_do_arquivo.py
+    </code></pre>
+  </div>
+
+  <h2>Questão 1</h2>
+  
+  <h3>Abordagem 1: Grafo utilizando matrizes</h3>
+
+  <p>
+
+  </p>
+
+</div>
+
+</body>
+</html>
