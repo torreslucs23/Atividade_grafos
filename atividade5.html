@@ -6,7 +6,7 @@
   <title>Modelo de uso do MathJax (HTML+Latex)</title>
   <style>
     .code-container {
-            background-color: #2d0d3b;
+            background-color: #4c3855;
             padding: 15px;
             border-radius: 5px;
             font-family: "Courier New", monospace;
@@ -17,7 +17,7 @@
         }
     
     code {
-        color: #e8e8ee;
+        color: #ffffff;
     }
 
 </style>
@@ -134,11 +134,159 @@ font-size: 20px;">
     da matriz, então podemos dizer que o vértice i é adjacente do vértice j, ou seja, existe 
     um caminho que direciona de i para j. <br> <br>
 
-    Podemos fazer um exemplo simples. Considere o grafo: <br> <br>
-
+    Podemos fazer um exemplo simples. Considere o grafo: <br> <br></p>
+    
+    <div style="display: flex; justify-content: center; margin: 0;  " >
+    <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo4.png?raw=true" alt="">
+  </div>
+    <p style="text-align: center;">
+     <strong>Sua matriz de representação: </strong> \begin{array} {|r|r|}\hline 0 & 1 & 0 \\ \hline 0 & 0 & 1 \\ \hline 1 & 0 & 0 \\ \hline  \end{array}
+    </p>
+    <div style="display: flex; justify-content: center; margin: 0;"">
     <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo3%20.png?raw=true" alt="">
+  </div>
+    <p style="text-align: center;">
+      <strong>Sua matriz transposta: </strong> \begin{array} {|r|r|}\hline 0 & 0 & 1 \\ \hline 1 & 0 & 0 \\ \hline 0 & 1 & 0 \\ \hline  \end{array}
+    </p>
 
+  <p>
+    Perceba que uma matriz transposta, basta transformamos as colunas em linhas. <br> <br>
+    Para isso, podemos ter o seguinte <strong> pseudocódigo:</strong> <br> <br>
   </p>
+
+  <div class="code-container">
+    <pre><code>
+      1.funcao Transposta(G):
+      2.  {pre-cond} Uma matriz representando o grafo G
+      3.  {pós-cond} Retorna uma matriz transposta do grafo G
+      4.  colunas = linhas(G)
+      5.  transposta = []
+      6.  para i = 0 até colunas, faça: 
+      7.    linha = []
+      8.    para cada w em G, faça: 
+      9.      adicione w[i] em linha
+      10.    adicione linha em transposta
+      11.  retorne transposta
+    </code></pre>
+  </div>
+
+  <p>Repare que colunas serve para contar o número de colunas da matriz. Importante se atentar que 
+    o número de colunas é o mesmo que o de linhas.<br>
+    O comando adicione das linhas 10 e 11 significam que, um elemento A deve ser adicionado ao final 
+    do vetor B. <br> <br>
+
+    -> Para a invariante de loop da linha 6, podemos afirmar que antes do laço, a matriz "transposta"
+    será vazia. Ao final de cada iteração, teremos uma matriz com uma linha nova, na qual essa linha
+    possui todos os elementos da coluna G[i]. Isso é verdade para toda iteração do laço. Quando o 
+    laço acaba, temos como resultado a matriz transposta.<br><br>
+
+    -> A invariante de laço do loop mais interno, linha 8, antes da primeira iteração, terá o vetor 
+    "linha" vazio. A cada iteração do laço, o vetor "linha" salvará ao final, o elemento w[i]. No final 
+    do laço, teremos um vetor "linha" com todos os elementos da coluna de G[i].
+  </p>
+
+  <p>Fazendo uma análise de complexidade bem razoável, podemos perceber que esse algoritmo é 
+    \(\theta(|V|²)\), pois ele irá passar por cada elemento da matriz, que contém \(|V|²\) vértices.
+    Isso pode ser analisado na linha 6, na qual executamos \(G(|V|)\) vezes, e na linha 8, na qual 
+    temos \(\sum_{n=1}^{|V|} |V| = \theta(|V|)²\). <br> <br>
+    Portanto, este algoritmo tem crescimento quadrático: \(\Theta(n²)\). <br> <br>
+    Clique <a href="https://github.com/torreslucs23/Atividade_grafos/blob/main/python/q1.py">
+      aqui
+    </a> para acessar o programa implementado desse problema.
+  </p>
+
+  <h3>Abordagem 2: Grafo utilizando lista de adjacências</h3>
+
+  <p>
+    Nesta abordagem, representaremos o grafo \(G\) utilizando lista de adjacências, na qual cada vértice 
+    do grafo, terá um vetor indicando para quais vértices ele está apontando. <br> <br>
+    Para a resolução desse problema, utilizei o conceito de tabela hash, na qual cada vértice é uma chave,
+     e nele está associado um vetor que indica para onde esse vértice aponta. <br> <br>
+    Exemplificando, temos: <br>
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 0;  " >
+    <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo4.png?raw=true" alt="">
+  </div>
+    
+  <div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
+    <pre><code style="color: black;">
+      x = {
+        "a":["b"], 
+        "b":["c"],"
+        "c":["a"]}
+    </code></pre>
+  </div>
+  <br>
+
+
+    <div style="display: flex; justify-content: center; margin: 0;">
+    <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo3%20.png?raw=true" alt="">
+  </div>
+    
+  <div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
+    <pre><code style="color: black;">
+      x = {
+        "a":["c"], 
+        "b":["a"],"
+        "c":["b"]}
+    </code></pre>
+  </div>
+  <br>
+
+  <p>
+    Com isso, podemos ter o seguinte <strong> pseudocódigo:</strong> <br> <br>
+  </p>
+  
+  <div class="code-container">
+    <pre><code>
+      1.funcao Transposta(G):
+      2.  {pré-cond}: um grafo representado por listas de adjacências 
+      3.  {pós-cond}: Retorna a transposta do grafo 
+      4.  transposta = {i:[] para cada chave i em G}
+      5.  para cada chave i em G, faça:
+      6.    para cada elemento w em lista de adjacencias de i, faça: 
+      8.      adicione i em transposta[w]
+      9.  retorne transposta
+    </code></pre>
+  </div>
+
+  <p>
+    Esse algoritmo fará o seguinte: passará por todos os elementos da lista de adjacência de cada vértice 
+    e salvará na tabela hash nova, o vértice em que está sendo analisado seus adjacentes dentro do 
+    da lista do vértice que está sendo olhado agora, pela iteração. Para explicar melhor, analisemos as 
+    invariantes de laço. <br> <br>
+    Antes de analisar, vai algumas observações do pseudocódigo: <br>
+    Linha 4: Cria uma tabela hash com cada vértice, onde seus adjacentes são listas vazias inicialmente. <br>
+    Linha 6: esse para itera em cada elemento da lista de adjacencias do vértice atual, ou seja, do 
+    vértice "i" <br>
+    Linha 8: Adiciona o vértice "i" na lista de adjacências do vértice w, do Grafo novo. <br> <br>
+
+    -> Para a invariante de laço da linha 5, temos que antes de entrar nela, temos uma tabela hash 
+    chamada "transposta" que inicialmente contém todos os vértices de "G" com adjacentes vazios. <br>
+    Ao final de cada iteração de laço, a "transposta" terá o vértice "i" adicionado em seu devido lugar 
+    em todas as listas de adjacências correspondentes. No final desse laço, a tabela "transposta" terá 
+    o grafo original de forma transposta. <br> <br>
+    
+    ->Para a invariante de laço da linha 6, antes de entrar de fato no laço, a tabela "transposta" irá
+    conter em todas as listas de adjacências dos vértices, os vértices que já foram visitados pela 
+    variável "i". A invariante ao final de cada iteração do laço, terá como verdade que, na tabela 
+    "transposta", os vértice w terá em sua lista de adjacência, o elemento i. Quando o laço acaba, 
+    todos os vértices  dos adjacentes de "i" no grafo original, terão o "i" em suas listas de adjacências 
+    em seus respectivos vértices na tabela "transposta" <br> <br>
+  </p>
+
+  <p>Este algoritmo terá complexidade \(\theta(|V|+|E|)\), pois ele passa em cada vértice, e em cada 
+    vértice, ele passa pelos seus respectivos caminhos, uma única vez. Podemos fazer uma breve análise.
+    Na linha 5, será executado \(|V|+1\) vezes = \(\theta(|V|)\). Na linha 6, temos que ele vai passar 
+    por cada vértice adjacente de "i" uma vez. Considerando que o grafo é direcionado, ele irá 
+    executar essa linha \(\sum_{n=1}^{|E|} 1 = \theta(|E|)\), pois é o número total de caminhos. <br><br>
+    Logo, esse algoritmo é \(\theta(n)\) e tem complexidade melhor do que utilizando matrizes.
+  </p>
+
+  <p> Clique <a href="https://github.com/torreslucs23/Atividade_grafos/blob/main/python/q1.py">
+    aqui
+  </a> para acessar a implementação em Python</p>
 
 </div>
 
