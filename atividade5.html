@@ -149,6 +149,13 @@ font-size: 20px;">
       <strong>Sua matriz transposta: </strong> \begin{array} {|r|r|}\hline 0 & 0 & 1 \\ \hline 1 & 0 & 0 \\ \hline 0 & 1 & 0 \\ \hline  \end{array}
     </p>
 
+
+    <P>
+      <strong>Nota: </strong>Toda linha e coluna de representação de matriz, está representando as letras
+      em ordem alfabética, ou seja, linha 1 refere ao vértice "a", linha 2 ao vértice "b", e assim por
+       diante. Mesmo exemplo para representar as colunas.
+    </P>
+
   <p>
     Perceba que uma matriz transposta, basta transformamos as colunas em linhas. <br> <br>
     Para isso, podemos ter o seguinte <strong> pseudocódigo:</strong> <br> <br>
@@ -211,7 +218,7 @@ font-size: 20px;">
     
   <div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
     <pre><code style="color: black;">
-      x = {
+      G = {
         "a":["b"], 
         "b":["c"],"
         "c":["a"]}
@@ -226,7 +233,7 @@ font-size: 20px;">
     
   <div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
     <pre><code style="color: black;">
-      x = {
+      transposta = {
         "a":["c"], 
         "b":["a"],"
         "c":["b"]}
@@ -310,9 +317,119 @@ font-size: 20px;">
   <p>
     Usando as mesmas representações de matrizes discutidas na questão 1, podemos notar alguns padrões
     do vértice "celebridade". Vamos fazer um exemplo: <br> <br>
-    
+
+  </p>
+  <div style="display: flex; justify-content: center; margin: 0;  " >
+    <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo7.png?raw=true" alt="">
+  </div>
+
+  <p>\begin{array} {|r|r|}\hline 0 & 1 & 1 & 0 \\ \hline 0 & 0 & 1 & 1 \\ \hline 0 & 0 & 0 & 0 \\ \hline 0 & 0 & 1 & 0 \\ \hline  \end{array}</p>
+
+  <p>Note que, o grafo contém o vértice "c" como celebridade. A matriz representa os vértices e suas 
+    adjacências. Repare que a linha do vértice "c", ou seja, a 3º linha, todos os elementos estão zerados
+      , ou seja, "c" não tem nenhum grau de saída. Note também que na coluna "c", que é a 3º coluna, 
+      todos os elementos estão com o valor 1, exceto o elemento da linha "c". 
   </p>
 
+  <p>
+    Podemos fazer que esse algoritmo tenha tempo linear usando a seguinte estratégia: <br><br>
+    Para iniciar, setamos uma variável m, que vai guardar o maior valor para auxiliar no algoritmo <br>
+    ->1. Começamos analisando coluna por coluna, da linha 1 até a linha n. iremos usar i para linhas e w 
+    para colunas. para cada coluna, percorremos i até n, para verificar se aquela coluna tem \(d(v) = |V|-1\).
+    caso i = w, apenas ignoramos. <br><br>
+    ->2. durante a iteração em cada elemento da coluna, caso G[i][w] = 0, salvamos m = i. Isso será necessário
+    pois a gente vai parar esse laço e analisar outra coluna. Entretanto, para não ter que visualizar todas 
+    as linhas, como sabemos que m guarda a posição do último elemento que tem um grau de saída, analisaremos
+    apenas a coluna de m+1, pois é certeza que qualquer vértice menor ou igual m, não são celebridades.  <br> <br>
+    ->3. Caso seja encontrado uma coluna que satisfaça a coluna do vértice celebridade, devemos verificar apenas 
+    se todas as linhas desse vértice são iguais a zero. Se a condição for verdadeira, é porque G contém 
+    um sorvedouro universal. Caso contrário de tudo, ele não existe. <br><br>
+  </p>
+
+  <p>Segue abaixo o <strong> pseudocódigo </strong>do algoritmo: </p>
+
+  <div style="max-width: 850px;" class="code-container">
+    <pre><code>
+      1. funcao sorvedouro(G):
+      2.  {pré-cond}: Um grafo orientado em forma de matriz
+      3.  {pós-cond}: Condição booleana se o grafo contém ou não um sorvedouro universal 
+      4.  m = -1
+      5.  para i = 0 até tamanho(G), faça: 
+      6.    se i <= m, faça:
+      7.      pule para a próxima iteração
+      8.    flag = 1
+      9.    c = 0
+      10.   enquanto verdade, faça:
+      11.     se c == tamanho(G), faça:
+      12.       saia do laço
+      13.     se c == i, faça:
+      14.       c = c + 1
+      15.       pule para a proxima iteração
+      16.     se G[c][i] == 0, faça:
+      17.       flag = 0
+      18.       m = c - 1
+      19.       saia do laço
+      20.     c = c+1
+      21.   se flag == 1, faça:
+      22.     para w = 0 até tamanho(G), faça:
+      23.       se G[i][w] == 1, faça: 
+      24.         flag = 0
+      25.       se flag == 0, faça: 
+      26.         retorne False
+      27.     retorne True 
+      28. retorne False
+    </code></pre>
+  </div>
+
+<p>
+  <br><br>
+  Apesar do meu pseudocódigo ser um pouco extenso, você pode visualizar e testar para ter uma ideia 
+  melhor do funcionamento de cada variável dele. Clique 
+  <a style="color: #4c3855;" href="https://github.com/torreslucs23/Atividade_grafos/blob/main/python/q2.py">aqui</a> para 
+  acessar o link do programa implementado em Python.
+</p>
+<p><br>
+  No pseudocódigo, temos algumas variáveis especiais, como "m", que salva o vértice maior que não deve 
+  ser checado mais, a variável "flag", que é booleana e salva alguns estados importantes para o algoritmo, 
+  e a variável "c", que é um contador de linha por linha, na qual ele funciona no laço enquanto, da linha 
+  10. Essa linha 10 significa que o o laço é infinito, a não ser que alguma condição dentro dele faça 
+  ele acabar. E de fato ele acaba, pois c uma hora será igual ao tamanho de G, ou pode ocorrer algum 
+  elemento inválido na coluna. <br><br>
+  >>Para analisar as invariantes de laço, vamos começar do mais externo, ou seja, da linha 5. Note que 
+  antes da primeira iteração, ele terá como verdade a variável m = -1. Ao final de cada iteração, 
+  temos que é verdade que, ou será achado a coluna do vértice em que pode ser a celebridade, ou não. De 
+  todas as formas, m sempre salvará a posição do último vértice que não pode ser uma celebridade. A medida
+  de progresso so laço se dá pela variável i, que vai de 0 até o tamanho de linhas de G. Porém, o laço 
+  pode ser finalizado antes, caso ele encontre a condição que queira achar. <br><br>
+  >>Para a invariante da linha 10, temos que antes da primeira iteração, c = 0 e i sempre deverá ser maior
+   que m, além da flag ser verdadeira. Ao final de cada execução, ou encontramos um valor não válido, e 
+   setamos a flag para falso, ou encontramos um valor válido, e nosso c vai ser igual ao último índice do vértice 
+   que foi visitado. No final da invariante, temos uma flag = True ou flag = False. <br> <br>
+  >>Para a invariante do laço da linha 22, temos que antes da primeira iteração, ele só será executado se 
+  a flag = True. Sabemos também que deverá ser verificada a linha do índice "c". Ou seja, verificar se 
+  ele possui algum grau de saída. Ao final de cada execução da invariante, ou a flag é falsa e o programa 
+  termina, ou ela é verdadeira e continua até o final do laço. <br> <br>
+
+  Provado as invariantes, podemos analisar o crescimento assintótico de maneira informal da seguinte forma:
+  <br>
+  >> Note que na linha 5, teríamos um tempo de execução \(|V| + 1\), pois ele iria de i=0 até tamanho de G
+   , que são suas linhas. Entretanto, como temos a variável m, que salva o último elemento que tem algum 
+   grau de saída, ele pode não verificar todos, cortando boa parte das execuções. <br>
+   Na linha 10, acontece que se algum 0 for achado, o algoritmo já vai para a próxima iteração, sem passar 
+   pelos outros elementos da coluna. E caso ele tenha elementos de valor "1" até um certo momento, a variável
+   m irá atualizar e cortará algumas iterações do laço da linha 5. Por isso, dá para concluir, informalmente, 
+   que a complexidade desses dois laços tem \(\theta(2|v|)\), pois, na maioria dos casos, ele vai checar
+   uma linha e uma coluna inteira. <br>
+   <br>
+   Para a linha 22, na qual a gente tem um laço, apesar dele está interno ao laço da linha 5, ele é 
+   executado apenas uma vez, pois é o caso que, quando achado uma coluna de um possível vértice celebridade, 
+   verifica-se uma vez se sua linha satisfaz as condições. Por isso, ela tem \(O(|V|)\) no pior caso. <br>
+   Com isso, considerando que todas as outras funções de código tem execuções constantes, podemos concluir 
+   que o algoritmo é \(\theta(|v|) = \theta(n)\).
+
+
+
+</p>
 
 
 </div>
