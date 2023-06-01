@@ -115,10 +115,26 @@ font-size: 20px;">
   </div>
 
   <h2>Questão 1</h2>
-  
-  <h3>Abordagem 1: Grafo utilizando matrizes</h3>
-
   <p>
+    Para resolver essa questão, utilizaremos duas abordagens: A da representação do grafo utilizando 
+    matrizes e utilizando lista de adjacências. <br><br>
+    Essa questão pede para criar e analisar um algoritmo que dado um certo grafo \(G=(V,E)\), devemos
+    retornar \(G^{T} = (V,E^{T})\) em que \( E^T = \{(v,u) \in V \times V \colon (u, v) \in E\} \). <br>
+    Ou seja, a entrada é um grafo e devemos produzir a transposta desse grafo, como está representado na 
+    imagem: <br> <br> <br>
+    <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/a1.jpg?raw=true" alt="">
+  </p>
+
+  <h3>Abordagem 1: Grafo utilizando matrizes</h3>
+  
+  <p>
+    Para trabalhar nessa abordagem, representaremos o grafo \(G\) como uma matriz, ou seja, ele será
+    um vetor com \(G(V)\) vetores dentro dele, representando suas linhas.<br> <br>
+    Iremos representar nossa matriz pela letra M. Se M[i][j] = 1, onde i e j são indices válidos
+    da matriz, então podemos dizer que o vértice i é adjacente do vértice j, ou seja, existe 
+    um caminho que direciona de i para j. <br> <br>
+
+    Podemos fazer um exemplo simples. Considere o grafo: <br> <br>
 
   </p>
 
