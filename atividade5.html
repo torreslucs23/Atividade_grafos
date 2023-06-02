@@ -428,8 +428,117 @@ font-size: 20px;">
    que o algoritmo é \(\theta(|v|) = \theta(n)\).
 
 
+</p>
+
+<h2>Questão 3</h2>
+
+<p>
+  Para a resolução desse algoritmo, trabalharemos com um grafo não-direcionado, com representação usando 
+  listas de adjacências. Utilizaremos os mesmos conceitos de tabela hash, onde foi usado na questão 1. <br>
+  Podemos considerar que, dado um conjunto \(S\), podemos ter os mesmos vértices que estão em G, ou alguns, 
+  onde todos eles estão em G também. Podemos fazer uma representação da seguinte maneira: <br><br>
 
 </p>
+
+<div style="display: flex; justify-content: center; margin: 0;  " >
+  <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo8.png?raw=true" alt="">
+</div>
+
+<div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
+  <pre><code style="color: black;">
+    G = {
+      "a":["b","c"], 
+      "b":["a","c","d"],
+      "c":["a","b","d"],
+      "d":["b", "c"]}
+  </code></pre>
+</div>
+<br>
+
+
+<div style="display: flex; justify-content: center; margin: 0;  " >
+  <img src="https://github.com/torreslucs23/Atividade_grafos/blob/main/exemplo9.png?raw=true" alt="">
+</div>
+
+<div class="code-container", style="max-width: 300px; background-color: #ddcbe5;">
+  <pre><code style="color: black;">
+    G = {
+      "a":["c"], 
+      "c":["a","d"],
+      "d":["c"]}
+  </code></pre>
+</div>
+<br>
+
+<p>Note que no exemplo anterior, foi passado como subconjunto apenas os vértices {"a","c","d"}. <br>
+  Para a minha resolução, foi criado um vetor "new_v" de vértices na qual está contido em G, mas não está no 
+  subconjunto. Ou seja, são vértices que terão que ser excluídos. Para isso, eu passo por cada vértice
+   do vetor "new_v" e removo tudo que está relacionado com ele do Grafo original. Quando eu remover todos 
+   , o subgrafo induzido é retornado. <br>
+   Segue abaixo o pseudocódigo da implementação: 
+</p>
+
+<div style="max-width: 850px;" class="code-container">
+  <pre><code>
+    1. função subgrafo(G, v):
+    2.  {pré-cond}: entrada é um grafo não direcionado
+    3.  {pós-cond}: retorna um subgrafo induzido usando o subconjunto v
+    4.  new_v = []
+    5.  para cada i em G, faça:
+    6.    se i não está em v, faça:
+    7.      new_v.push(i)
+    8.  para cada j em new_v, faça:
+    9.    new_g = {chave:{} para cada chave em G}
+    10.   para cada i em G, faça:
+    11.     se i == j, faça:
+    12.       pule para proxima iteracao
+    13.     caso contrário, faça:
+    14.       para cada w em G[i], faça:
+    15.         se w != j, faça:
+    16.           new_g[i].push(w)
+    17.   delete new_G[i]
+    18.   G = copie(new_G)
+    19. retorne new_G
+  </code></pre>
+</div>
+
+<p>
+  Explicando algumas linhas: na linha 5-7, eu crio o vetor novo de elementos que devem ser excluídos 
+  do Grafo original. Note que a complexidade dessas linhas pode ser interpretada de várias formas, vai 
+  depender de como está organizado a entrada, de como serão implementados os laços dessas linhas, etc. 
+  Caso a entrada não esteja ordenada, o custo terá \(\theta(|v|n)\), pois para cada vértice de G, 
+  terá de passar em todos os elementos de v, que tem n elementos. <br>
+  >>Na linha 9, é criado uma tabela hash do grafo G, na qual cada chave tem um vetor vazio associado. Essa 
+  linha tem complexidade \(\theta(|v|)\).
+  <br>
+  >> as funções push serve para adicionar o elemento no final da lista. A função copie serve para copiar 
+  todos os dados dde uma variável e passar para outra. 
+  <br><br>
+  Podemos calcular a complexidade e provar as invariantes, considerando apenas os laços das linhas 8, 10 e 14, que são as principais 
+  do nosso algoritmo. <br>
+  Linha 8: Temos que antes da primeira iteração desse laço, a invariante diz que G contém o grafo original, 
+  new_V contém todos os vértices que precisamos excluir. Para o final de cada iteração desse laço, temos 
+  que o grafo "new_G" terá excluido o vértice "j" de "new_V". "G" terá o valor de "new_V" copiado. Quando 
+  o laço acaba, ambos G e new_G serão os subgrafos induzidos corretos. Tudo que está nesse laço, 
+  executa n vezes, sendo "n" o total de elementos de new_V <br>
+  Linha 10: Temos que a invariante antes de entrar na primeira iteração desse laço, tem como verdadeiro 
+  que new_G é vazio e G é um grafo com todos os vértices menores que j excluídos do grafo original. Ao final 
+  de cada iteração, é verdadeiro que new_G terá o vértice i, junto com sua respectiva lista de adjacência.
+   Ao final do laço, new_G contém um grafo com o vértice j excluído. Esse laço, junto com o que está dentro, 
+   tem complexidade \(\theta(|v|)\), pois ele passa em todos os vértices de G. <br>
+  Linha 14: Para a invariante antes da primeira iteraação, temos como verdade que new_G[i] ainda não 
+  possui nenhum adjacente em sua lista. Ao final de cada iteração, new_G[i] ganha w em sua lista, caso 
+  w seja diferente de j. Ao final da invariante, teremos que new_G[i] terá todos seus adjacentes corretamente.
+  A complexidade dessa linha é de \(\theta(m)\), sendo m o número de caminhos de new_G[i]. <br><br>
+  
+  Analisando as complexidades calculadas, podemos deduzir que esse algoritmo tem, nos seus piores casos, 
+  crescimento \(O(n)\), pois seria um grafo com todos os vértices a serem excluídos, com caminhos densos, 
+  interligando todos eles. Mas no caso médio, em geral, pode-se dizer que ele é \(\theta(n²)\), pois 
+  nem sempre terá uma gama de caminhos densos, na qual o laço da linha 14 precisará iterar. <br><br>
+
+  Você pode acessar a resolução desse algoritmo em python clicando 
+  <a href=""></a>
+
 
 
 </div>
